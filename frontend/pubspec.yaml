@@ -1,0 +1,70 @@
+name: frontend
+description: "A new Flutter project."
+
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  liquid_swipe: ^3.0.0
+  smooth_page_indicator: ^1.0.0+2
+  cupertino_icons: ^1.0.8
+  camera: ^0.11.0+2
+  firebase_core: ^3.10.0
+  firebase_auth: ^5.4.1
+  cloud_firestore: ^5.6.2
+  get: ^4.6.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/splash_images/
+    - assets/images/onboarding_images/
+    - assets/fonts/
+    - assets/images/login_signup/login.png
+    - assets/images/logo/
+    - assets/images/messages/error_sign.png
+    - assets/images/messages/red_bubble.png
+    - assets/images/messages/close_icon.png
+    - assets/images/messages/check_sign.png
+    - assets/images/messages/green_bubble.png
+
+
+  fonts:
+    - family: Oleo
+      fonts:
+        - asset: assets/fonts/OleoScriptSwashCaps-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/OleoScriptSwashCaps-Regular.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 700
+    - family: Aboreto
+      fonts:
+        - asset: assets/fonts/Aboreto-Regular.ttf
+          weight: 400
+  
+  
+  
