@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "892392982090",
+    "project_id": "momentix-e89f6",
+    "storage_bucket": "momentix-e89f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892392982090:android:db83eb06c2e968ab4908b3",
+        "android_client_info": {
+          "package_name": "com.sarina_momentix.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOE_a3DopRQZC3g-bWT39tKQghDVXOVdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
