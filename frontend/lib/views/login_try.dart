@@ -14,7 +14,8 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: white,
       body: SafeArea(
@@ -23,7 +24,9 @@ class Login extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: horiPadding),
             child: Column(
               children: [
-                FormHeaderWidget(image: loginImage, title: loginTitle, subTitle: loginSubTitle),
+                FormHeaderWidget(title: loginTitle, subTitle: loginSubTitle),
+                Image(image: AssetImage(loginImage), height: size.height * 0.2),
+                SizedBox(height: 20,),
 
                 //Form
                 Column(

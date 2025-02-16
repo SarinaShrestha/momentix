@@ -6,6 +6,7 @@ class TextThemes {
     headlineLarge: TextStyle(
       fontFamily: 'Poppins', 
       fontWeight: FontWeight.w700,
+      fontSize: 30,
       color: Colors.black87,
     ),
 
@@ -30,7 +31,7 @@ class TextThemes {
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w400,
       color: Color(0xFF555555),
-      fontSize: 18,
+      fontSize: 15,
     ),
 
     bodySmall: TextStyle(

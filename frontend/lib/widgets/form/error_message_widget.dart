@@ -40,7 +40,7 @@ class ErrorMessageWidget extends StatelessWidget {
                     Text(text,
                       style: TextStyle(
                         color: white,
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: FontWeight.normal
                       ),
                       maxLines: 2,
@@ -66,19 +66,25 @@ class ErrorMessageWidget extends StatelessWidget {
         Positioned(
           top: -20,
           right: 10,
-          child: SizedBox(
-            height: 48,
-            width: 50,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Image(image: AssetImage(redBubble)),
-                Positioned(
-                  height: 10,
-                  width: 10,
-                  top: 15,
-                  child: Image(image: AssetImage(closeButton))),
-              ],
+          child: Container(
+            color: Colors.transparent,
+            child: SizedBox(
+              height: 60,
+              width: 60,
+              
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  Image(image: AssetImage(redBubble)),
+                  Positioned(
+                    height: 10,
+                    width: 10,
+                    top: 15,
+                    child: Image(image: AssetImage(closeButton))
+                  ),
+                ],
+              ),
             ),
           ))
       ],

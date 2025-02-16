@@ -6,6 +6,7 @@ const String onBoardingImage4 = "assets/images/onboarding_images/onboarding4.png
 
 // Login Page Images
 const String loginImage = "assets/images/login_signup/login.png";
+const String profilePicture ='assets/images/login_signup/profile.jpg';
 
 //Google Logo
 const String googleLogo = "assets/images/logo/google.png";

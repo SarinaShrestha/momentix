@@ -12,7 +12,7 @@ class TextFormTheme {
       hintStyle: TextStyle(
         fontFamily: 'Poppins',
           fontWeight: FontWeight.w300,
-          fontSize: 16,
+          fontSize: 14,
           color: hintTextColor
       ),
 
