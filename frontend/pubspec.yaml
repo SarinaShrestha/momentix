@@ -39,6 +39,7 @@ flutter:
     - assets/images/onboarding_images/
     - assets/fonts/
     - assets/images/login_signup/login.png
+    - assets/images/login_signup/profile.jpg
     - assets/images/logo/
     - assets/images/messages/error_sign.png
     - assets/images/messages/red_bubble.png

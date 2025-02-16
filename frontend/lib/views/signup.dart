@@ -12,6 +12,7 @@ import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/widgets/form/form_header_widget.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 import 'package:frontend/widgets/form/login_form_widget.dart';
+import 'package:frontend/widgets/form/profile_picture.dart';
 import 'package:get/get.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -54,7 +55,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FormHeaderWidget(image: loginImage, title: signUpTitle, subTitle: signUpSubTitle),
+                  FormHeaderWidget(title: signUpTitle, subTitle: signUpSubTitle),
+
+
+                  SizedBox(height: 10),
+
+                  ProfilePictureWidget(),
+
+                  SizedBox(height: 10),
 
                   LoginFormWidget(text: fullName, hintText: hintFullName, controller: controller.fullName,),
 
