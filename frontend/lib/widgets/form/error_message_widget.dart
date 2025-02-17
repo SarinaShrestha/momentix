@@ -20,7 +20,7 @@ class ErrorMessageWidget extends StatelessWidget {
           height: 90,
           decoration: BoxDecoration(
             color: errorRed,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           child: Row(
             children: [
@@ -29,19 +29,21 @@ class ErrorMessageWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Oh Snap!',
+                    const Text(
+                      'Oh Snap!',
                       style: TextStyle(
-                        color: white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                      )
+                        color: Colors.white, 
+                        fontSize: 16, 
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
-                    Text(text,
-                      style: TextStyle(
-                        color: white,
+                    Text(
+                      text,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 13,
-                        fontWeight: FontWeight.normal
+                        fontWeight: FontWeight.normal,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -52,41 +54,32 @@ class ErrorMessageWidget extends StatelessWidget {
             ],
           ),
         ),
+        // Error Image
         Positioned(
           top: 10,
           left: 5,
           child: SizedBox(
             height: 60,
             width: 60,
-            child: Image(image: AssetImage(errorImage),
-            fit: BoxFit.cover,
-            )
+            child: Image.asset(errorImage, fit: BoxFit.cover),
           ),
         ),
+        // Close Button
         Positioned(
           top: -20,
           right: 10,
-          child: Container(
-            color: Colors.transparent,
-            child: SizedBox(
-              height: 60,
-              width: 60,
-              
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  Image(image: AssetImage(redBubble)),
-                  Positioned(
-                    height: 10,
-                    width: 10,
-                    top: 15,
-                    child: Image(image: AssetImage(closeButton))
-                  ),
-                ],
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Image.asset(redBubble, height: 60, width: 60),
+              Positioned(
+                top: 15,
+                child: Image.asset(closeButton, height: 20, width: 20),
               ),
-            ),
-          ))
+            ],
+          ),
+        ),
       ],
     );
   }
