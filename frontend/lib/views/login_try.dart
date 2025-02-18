@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/register_controller.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
@@ -7,7 +8,10 @@ import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/views/signup.dart';
 import 'package:frontend/widgets/form/form_header_widget.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
-import 'package:frontend/views/home.dart'; // Adjust the path as necessary
+import 'package:frontend/views/home.dart';
+import 'package:frontend/widgets/form/login_form_widget.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart'; // Adjust the path as necessary
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -15,7 +19,9 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    final controller = Get.put(SignUpController());
     final size = MediaQuery.of(context).size;
+    
     return Scaffold(
       backgroundColor: white,
       body: SafeArea(
@@ -32,9 +38,9 @@ class Login extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //const LoginFormWidget(text: email, hintText: hintEmail),
+                    LoginFormWidget(text: email, hintText: hintEmail, controller: controller.fullName,),
 
-                    //const LoginFormWidget(text: password, hintText: hintPassword),
+                    LoginFormWidget(text: password, hintText: hintPassword, controller: controller.fullName,),
 
                     Align(
                       alignment: Alignment.centerRight,

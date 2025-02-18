@@ -23,14 +23,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  void proceedToNextPage() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CaptureProfilePicturePage()),
-      );
-    }
-  }
+  // void proceedToNextPage() {
+  //   if (_formKey.currentState!.validate()) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => CaptureProfilePicturePage()),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                   SizedBox(height: 10),
 
-                  ProfilePictureWidget(),
+                  ProfilePicture(),
 
                   SizedBox(height: 10),
 
