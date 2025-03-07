@@ -16,8 +16,8 @@ class ErrorMessageWidget extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
-          height: 90,
+          padding: const EdgeInsets.all(15),
+          height: 95,
           decoration: BoxDecoration(
             color: errorRed,
             borderRadius: const BorderRadius.all(Radius.circular(20)),

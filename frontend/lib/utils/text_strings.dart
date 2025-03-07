@@ -25,7 +25,7 @@ const getStarted = "Get Started";
 const String loginTitle = "Welcome Back!";
 const String loginSubTitle = "Login to Momentix.";
 const String rememberMe = "Remember Me?";
-const String dontHaveAccount = "Don't have an account?";
+const String dontHaveAccount = "Don't have an account? ";
 const String email = "Email";
 const String hintEmail = "Enter your email";
 const String password = "Password";
@@ -45,4 +45,22 @@ const String hintConfirmPassword = "Re-enter your password";
 const String next = "Next";
 const String signUp = "Sign Up";
 const String signUpWithGoogle = "Sign Up with Google";
-const String alreadyHaveAccount = "Already have an account?";
+const String alreadyHaveAccount = "Already have an account? ";
+
+
+//Error Messages
+const String signUpError = "An error occurred while signing up";
+const String noFaceDetected = "No face detected. Please take a clear picture of yourself.";
+const String multipleFacesDetected = "Multiple faces detected. Please take a picture with only your face.";
+const String noName = "Name cannot be empty. Please enter your name.";
+const String invalidName = "Name is invalid. Please enter a valid name.";
+const String noEmail = "Email cannot be empty. Please enter your email.";
+const String invalidEmail = "The entered email is invalid. Please enter a valid email.";
+const String weakPassword = "The password is too weak. Please enter a stronger password.";
+const String noPassword = "Password cannot be empty. Please enter your password.";
+const String noConfirmPassword = "Confirm password cannot be empty. Please re-enter your password.";  
+const String passwordMismatch = "Passwords do not match. Please re-enter your password.";
+const String userExists = "User with this email already exists. Please login or use a different email.";
+const String userNotFound = "No user found with this email. Please sign up or use a different email.";
+const String wrongPassword = "Incorrect password. Please try again.";
+

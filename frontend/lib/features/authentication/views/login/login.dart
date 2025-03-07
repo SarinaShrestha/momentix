@@ -1,25 +1,25 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/controller/register_controller.dart';
+import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
 import 'package:frontend/utils/text_strings.dart';
-import 'package:frontend/views/signup.dart';
+import 'package:frontend/features/authentication/views/register/signup.dart';
 import 'package:frontend/widgets/form/form_header_widget.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 import 'package:frontend/views/home.dart';
 import 'package:frontend/widgets/form/login_form_widget.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart'; // Adjust the path as necessary
+// Adjust the path as necessary
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     
-    final controller = Get.put(SignUpController());
+    final controller = Get.put(LoginController());
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
@@ -32,15 +32,15 @@ class Login extends StatelessWidget {
               children: [
                 FormHeaderWidget(title: loginTitle, subTitle: loginSubTitle),
                 Image(image: AssetImage(loginImage), height: size.height * 0.2),
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
 
                 //Form
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    LoginFormWidget(text: email, hintText: hintEmail, controller: controller.fullName,),
+                    LoginFormWidget(text: email, hintText: hintEmail, controller: controller.email,),
 
-                    LoginFormWidget(text: password, hintText: hintPassword, controller: controller.fullName,),
+                    LoginFormWidget(text: password, hintText: hintPassword, controller: controller.password,),
 
                     Align(
                       alignment: Alignment.centerRight,
@@ -62,7 +62,7 @@ class Login extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
                 // Login Button
                 SizedBox(
                   width: double.infinity,
@@ -72,7 +72,9 @@ class Login extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) => HomePage()),
                     );
-                  },),
+                  },
+                  color: outlineBlue,
+                  ),
                 ),
                 SizedBox(height: 20.0),
                 // Divider for Social Login
@@ -99,7 +101,7 @@ class Login extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildSocialButton(googleLogo, google, textGray),
+                    buildSocialButton(googleLogo, google, textGray),
                   ],
                 ),
                 SizedBox(height: 20.0),
@@ -133,6 +135,9 @@ class Login extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                SizedBox(height: 30.0),
+
               ],
             ),
           ),
@@ -141,7 +146,7 @@ class Login extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton(String iconPath, String text, Color bgColor) {
+  Widget buildSocialButton(String iconPath, String text, Color bgColor) {
     return ElevatedButton.icon(
       onPressed: () {},
       icon: Image.asset(
@@ -168,8 +173,3 @@ class Login extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

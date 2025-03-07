@@ -1,39 +1,39 @@
+import 'package:frontend/utils/text_strings.dart';
+
 class SignUpFailure {
   final String message;
 
-  const SignUpFailure([this.message = "An error occurred while signing up"]);
+  const SignUpFailure([this.message = signUpError]);
 
   factory SignUpFailure.code(String code) {
     switch(code){
       case 'emptyName' :
-        return const SignUpFailure("Name cannot be empty.");
+        return const SignUpFailure(noName);
 
       case 'invalidName' : 
-        return const SignUpFailure("Name is invalid.");
+        return const SignUpFailure(invalidName);
 
       case 'emptyEmail' : 
-        return const SignUpFailure("Email cannot be empty.");
+        return const SignUpFailure(noEmail);
 
       case 'emptyPassword' :
-        return const SignUpFailure("Password cannot be empty.");
+        return const SignUpFailure(noPassword);
 
       case 'emptyConfirmPassword' :
-        return const SignUpFailure("Confirm password cannot be empty.");
+        return const SignUpFailure(noConfirmPassword);
 
       case 'passwordMismatch' :
-        return const SignUpFailure("Passwords do not match.");
+        return const SignUpFailure(passwordMismatch);
 
       case 'userExists' : 
-        return const SignUpFailure("User with this email already exists.");
+        return const SignUpFailure(userExists);
 
       case 'invalidEmail' : 
-        return const SignUpFailure("The entered email is invalid.");
+        return const SignUpFailure(invalidEmail);
 
       case 'weakPassword' : 
-        return const SignUpFailure("The password is too weak.");
+        return const SignUpFailure(weakPassword);
         
-      case 'userDisabled' : 
-        return const SignUpFailure("The user has been disabled.");
       default: 
         return const SignUpFailure();
     }

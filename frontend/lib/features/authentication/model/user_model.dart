@@ -3,13 +3,14 @@ class UserModel {
   final String email;
   final String name;
   final String password;
-
+  final String profilePicture;
 
   UserModel({
     this.id,
     required this.email,
     required this.name,
     required this.password,
+    required this.profilePicture,
   });
 
   toJson() {
@@ -18,6 +19,7 @@ class UserModel {
       "FullName": name,
       "Email": email,
       "Password" : password,
+      'Profile Picture': profilePicture,
     };
   }
 }

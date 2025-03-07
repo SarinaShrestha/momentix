@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:frontend/utils/sizes.dart';
 
 
@@ -24,6 +23,7 @@ class LoginFormWidget extends StatelessWidget {
         SizedBox(height: 8,),
         TextField(
           controller: controller,
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hintText
           )

@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/model/user_model.dart';
 import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
 import 'package:frontend/repository/authentication_repository/exceptions/signup_failure.dart';
 import 'package:frontend/repository/user_repository/user_repository.dart';
-import 'package:frontend/views/login.dart';
+import 'package:frontend/features/authentication/views/login/login.dart';
 import 'package:frontend/widgets/form/error_message_widget.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +27,6 @@ class SignUpController extends GetxController {
 
     //Validation for Name
     if (fullName.text.trim().isEmpty) {
-      print("Name is empty");
       throw SignUpFailure.code('emptyName');
     } else if (fullName.text.trim().length < 3) {
       throw SignUpFailure.code('invalidName');
@@ -64,12 +66,33 @@ class SignUpController extends GetxController {
     );
   }
 
-  Future<void> registerUser(BuildContext context, String email, String fullName, String password) async{
+  //Uploading Profile Picture
+  Future<String> uploadProfilePicture(File image, String userId) async {
+    final Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child('profile_pictures')
+        .child('$userId.jpg');
+
+    UploadTask uploadTask = storageRef.putFile(image);
+    TaskSnapshot snapshot = await uploadTask;
+    return await snapshot.ref.getDownloadURL();
+  }
+
+
+  //Register User
+  Future<void> registerUser(BuildContext context, String email, String fullName, String password, File? profilePictureFile) async{
     try{
       validateInputs();
 
       // Create user in Firebase Authentication
       UserCredential authUser = await _authRepo.createUserWithEmailAndPassword(email, password);
+
+      if (profilePictureFile == null) {
+        throw SignUpFailure.code('noProfilePicture');
+      }
+
+      // Upload the profile picture and get its download URL.
+      String profilePictureUrl = await uploadProfilePicture(profilePictureFile, authUser.user!.uid);
 
       // Create user in Firestore Database
       UserModel user = UserModel(
@@ -77,24 +100,28 @@ class SignUpController extends GetxController {
         email: email.trim(), 
         name: fullName.trim(), 
         password: password.trim(),
+        profilePicture: profilePictureUrl,
       );
 
       await _userRepo.createUser(authUser.user!.uid, user);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Get.snackbar("Success", "The account has been created.",
-        snackPosition: SnackPosition.BOTTOM,  
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-        margin: EdgeInsets.all(20),
-        borderRadius: 10,
-        duration: Duration(seconds: 3),
-        isDismissible: true,
-        forwardAnimationCurve: Curves.easeOutBack,
-        reverseAnimationCurve: Curves.easeInBack,
-        animationDuration: Duration(milliseconds: 200),
-        );
-      });
+      Get.to(() => const LoginPage());
+      
+
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   Get.snackbar("Success", "The account has been created.",
+      //   snackPosition: SnackPosition.BOTTOM,  
+      //   backgroundColor: Colors.green,
+      //   colorText: Colors.white,
+      //   margin: EdgeInsets.all(20),
+      //   borderRadius: 10,
+      //   duration: Duration(seconds: 3),
+      //   isDismissible: true,
+      //   forwardAnimationCurve: Curves.easeOutBack,
+      //   reverseAnimationCurve: Curves.easeInBack,
+      //   animationDuration: Duration(milliseconds: 200),
+      //   );
+      // });
       
 
       await Future.delayed(Duration(seconds: 3));
@@ -102,7 +129,6 @@ class SignUpController extends GetxController {
       Get.to(() => const LoginPage());
 
     } on SignUpFailure catch (e) {
-      print("Inside SignUpFailure catch block");
       showMessage(context, ErrorMessageWidget(text: e.message));
     } catch (e) {
     // Handle any other unexpected errors

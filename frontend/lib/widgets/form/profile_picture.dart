@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/widgets/form/error_message_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:frontend/utils/image_strings.dart';
@@ -15,7 +16,9 @@ class ProfilePicture extends StatefulWidget {
 class ProfilePictureState extends State<ProfilePicture> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
-  String? _errorMessage; // Store error message if any
+  String? _errorMessage; 
+  
+  File? get imageFile => _imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +73,11 @@ class ProfilePictureState extends State<ProfilePicture> {
 
     if (faceCount == 0) {
       setState(() {
-        _errorMessage = "No face detected. Please take a clear picture of yourself.";
+        _errorMessage = noFaceDetected;
       });
     } else if (faceCount > 1) {
       setState(() {
-        _errorMessage = "Multiple faces detected. Please take a picture with only your face.";
+        _errorMessage = multipleFacesDetected;
       });
     } else {
       setState(() {
@@ -93,6 +96,6 @@ class ProfilePictureState extends State<ProfilePicture> {
     final List<Face> faces = await faceDetector.processImage(inputImage);
     await faceDetector.close();
 
-    return faces.length; // Return number of detected faces
+    return faces.length;
   }
 }

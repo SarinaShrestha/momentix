@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/views/login_try.dart';
+import 'package:frontend/features/authentication/views/login/login.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 import 'package:frontend/widgets/onboarding_widget.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
@@ -29,7 +29,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       if (currentPage > 3) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Login()),
+          MaterialPageRoute(builder: (context) => LoginPage()),
         );
       }
     }
@@ -152,10 +152,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Login()),
+                        MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
                     buttonName: getStarted,
+                    color: outlineBlue,
                   ),
                 ),
               ),

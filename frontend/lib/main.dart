@@ -1,18 +1,26 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/authentication/views/login/login.dart';
+import 'package:frontend/features/core/views/home/home_page.dart';
+import 'package:frontend/features/core/views/home/home_screen.dart';
 import 'package:frontend/firebase_options.dart';
 import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
-import 'package:frontend/views/onboarding.dart';
 import 'package:get/get.dart';
 import 'utils/theme.dart';
-import 'controller/camera.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-  .then((value) => Get.put(AuthenticationRepository()));
-  // Initialize the cameras as soon as the app starts
-  await CameraProvider().initCameras();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.debug,
+  );
+
+  Get.put(AuthenticationRepository());
+
   runApp(MyApp());
 }
 
@@ -24,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false, 
-      home: OnBoardingScreen(),
+      home: HomePage(),
     );
   }
 }

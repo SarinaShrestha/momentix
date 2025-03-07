@@ -22,3 +22,11 @@ const hintTextColor = Color(0xFFAAAAAA);
 //Message Colors
 const errorRed = Color(0xFFC72C41);
 const successGreen = Colors.green;
+
+//Home Page
+const lightBlack = Color(0xFF232323);
+//const lighterBlack = Color(0XFF333333);
+const buttonYellow = Color(0xFFFFD700);
+const black = Colors.black;
+const textBlue = Color(0XFF4A90E2);
+const backgroundBlue = Color(0XFFB4DAF3);
