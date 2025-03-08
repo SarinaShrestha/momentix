@@ -1,0 +1,11 @@
+flask
+firebase-admin
+pillow
+numpy
+pandas
+requests
+torch
+torchvision
+tensorflow
+google-cloud-storage
+google-cloud-firestore
