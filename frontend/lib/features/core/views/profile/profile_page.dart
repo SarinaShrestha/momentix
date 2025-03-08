@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/features/core/views/profile/update_profile_page.dart';
 import 'package:frontend/features/core/widgets/profile_details_widget.dart';
 import 'package:frontend/utils/colors.dart';
-import 'package:frontend/widgets/common/elevated_button_widget.dart';
 import 'package:get/get.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
@@ -57,8 +56,8 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10,),
-              Text('User Name', style: Theme.of(context).textTheme.bodyLarge,),
-              Text('Gmail@gmail.com', style: Theme.of(context).textTheme.bodyMedium),
+              Text('User Name', style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),),
+              Text('Gmail@gmail.com', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15)),
               const SizedBox(height: 20,),
               SizedBox(
                 width: 150,
@@ -73,7 +72,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 20,),
               const Divider(),
               const SizedBox(height: 10,),
-              Text("Profile Information", style: Theme.of(context).textTheme.bodyLarge,),
+              Text("Profile Information", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 17),),
               const SizedBox(height: 10,),
 
               ProfileDetailsWidget(
