@@ -37,7 +37,7 @@ class ThinElevatedButtonWidget extends StatelessWidget {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600, // 600 weight
             fontSize: 15.0,
-            color: textColor ?? white,
+            color: textColor,
           ),
         ),
       );
