@@ -3,7 +3,7 @@ import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
-  const ErrorMessageWidget({
+  const ErrorMessageWidget( {
     super.key, 
     required this.text,
   });

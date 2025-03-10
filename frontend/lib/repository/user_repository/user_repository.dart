@@ -38,4 +38,14 @@ class UserRepository extends GetxController{
       );
     }
   }
+
+  Future<void> updateUserDetails(UserModel user) async {
+    await _db.collection("Users").doc(user.id).update(user.toJson());
+  }
+
+  Future<UserModel> getUserData(String email) async {
+    final user = await _db.collection('Users').where('email', isEqualTo: email).get();
+    final userData = user.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    return userData;
+  }
 }

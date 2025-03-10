@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/controller/login_controller.dart';
+import 'package:frontend/features/authentication/controller/login_controller.dart';
+import 'package:frontend/features/core/views/home/home_page.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
@@ -8,7 +9,6 @@ import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/features/authentication/views/register/signup.dart';
 import 'package:frontend/widgets/form/form_header_widget.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
-import 'package:frontend/views/home.dart';
 import 'package:frontend/widgets/form/login_form_widget.dart';
 import 'package:get/get.dart';
 // Adjust the path as necessary
@@ -68,10 +68,11 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButtonWidget(buttonName: login,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    controller.loginUser(context);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => HomePage()),
+                    // );
                   },
                   color: outlineBlue,
                   ),

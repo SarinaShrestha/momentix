@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/features/core/views/home/home_page.dart';
 import 'package:frontend/repository/authentication_repository/exceptions/signup_failure.dart';
-import 'package:frontend/views/home.dart';
 import 'package:frontend/features/authentication/views/login/login.dart';
 import 'package:get/get.dart';
 

@@ -53,7 +53,7 @@ class ProfilePictureState extends State<ProfilePicture> {
         const SizedBox(height: 10),
         // Show error message if there's an issue
         if (_errorMessage != null) 
-          ErrorMessageWidget(text: _errorMessage!),
+          ErrorMessageWidget(text : _errorMessage!),
       ],
     );
   }

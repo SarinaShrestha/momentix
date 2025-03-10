@@ -57,7 +57,6 @@ class EventsPage extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => HomePage()),
                         );
                     }, 
-                    color: buttonYellow,
                     outlined: false,
                   ),
                 ),

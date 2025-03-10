@@ -2,6 +2,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/views/login/login.dart';
+import 'package:frontend/features/authentication/views/register/signup.dart';
 import 'package:frontend/features/core/views/home/home_page.dart';
 import 'package:frontend/features/core/views/home/home_screen.dart';
 import 'package:frontend/firebase_options.dart';
@@ -29,10 +30,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return MaterialApp(
+    return GetMaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false, 
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

@@ -6,14 +6,12 @@ class ThinElevatedButtonWidget extends StatelessWidget {
     super.key,
     required this.buttonName, 
     required this.onPressed,
-    required this.color,
     this.textColor,
     required this.outlined
   });
 
   final String buttonName;
   final VoidCallback onPressed;
-  final Color color;
   final bool outlined;
   final dynamic textColor;
 

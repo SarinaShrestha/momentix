@@ -1,15 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/core/views/profile/update_profile_page.dart';
 import 'package:frontend/features/core/widgets/profile_details_widget.dart';
 import 'package:frontend/utils/colors.dart';
-import 'package:get/get.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
+import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> _getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+  
+    if (user == null) {
+      print("No user logged in.");
+      throw Exception("User not logged in.");
+    }
+    
+    String uid = user.uid;
+    print("Current User UID: $uid");  // Debugging print
+    
+    return FirebaseFirestore.instance.collection('Users').doc(uid).get();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +36,25 @@ class ProfilePage extends StatelessWidget {
         leading: IconButton(onPressed: (){}, icon: const Icon(LineAwesomeIcons.angle_left)),
         title: Text('Profile', style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
-      body: SingleChildScrollView(
+      body:FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: _getUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return const Center(child: Text("User data not found."));
+          }
+          
+          var userData = snapshot.data!.data()!;
+          String profileImage = '';
+          String name = userData['FullName'] ?? '';
+          String email = userData['Email'] ?? '';
+          String userId = userData['Id'] ?? '';
+          String password = userData['Password'] ?? '';
+
+          return SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(defaultSize),
           child: Column(
@@ -36,7 +73,9 @@ class ProfilePage extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image(image: AssetImage(loginImage), fit: BoxFit.cover,),
+                        child: profileImage.isNotEmpty ?
+                          Image.network(profileImage, fit: BoxFit.cover,) :
+                          Image.asset(loginImage, fit: BoxFit.cover,),
                       ),
                     ),
                   ),
@@ -56,15 +95,19 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10,),
-              Text('User Name', style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),),
-              Text('Gmail@gmail.com', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15)),
+              Text(name, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),),
+              Text(email, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15)),
               const SizedBox(height: 20,),
               SizedBox(
                 width: 150,
                 child: ThinElevatedButtonWidget(
-                  onPressed: () => Get.to(() => const UpdateProfilePage()), 
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UpdateProfilePage()),
+                    );
+                  }, 
                   buttonName: 'Edit Profile',
-                  color: textBlue ,
                   outlined: false,
                   ),
               ),
@@ -77,26 +120,26 @@ class ProfilePage extends StatelessWidget {
 
               ProfileDetailsWidget(
                 title: 'Name',
-                value: 'Sarina',
+                value: name,
                 onPressed: (){},
               ),
 
               ProfileDetailsWidget(
                 title: 'UserId',
-                value: '00enfrkwn',
+                value: userId,
                 icon: Iconsax.copy,
                 onPressed: (){},
               ),
 
               ProfileDetailsWidget(
                 title: 'Gmail', 
-                value: 'sarina@gmail.com',
+                value: email,
                 onPressed: (){},
               ),
 
               ProfileDetailsWidget(
                 title: 'Password',
-                value: 'sarina@gmail.com',
+                value: password,
                 onPressed: (){},
               ),
 
@@ -114,7 +157,11 @@ class ProfilePage extends StatelessWidget {
 
             ),
         ),
+      );
+    
+        },
       ),
+
     );
   }
 }

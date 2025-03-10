@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/controller/register_controller.dart';
+import 'package:frontend/features/authentication/controller/register_controller.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
@@ -81,7 +81,7 @@ class RegistrationPageState extends State<RegistrationPage> {
                             builder: (_) => Dialog(
                               backgroundColor: Colors.transparent,
                               elevation: 0,
-                              child: ErrorMessageWidget(text: "Please take a picture first"),
+                              child: ErrorMessageWidget(text: 'Please take a picture first'),
                             ));
                             return;
                           }
