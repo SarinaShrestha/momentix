@@ -21,7 +21,7 @@ class UpdateProfilePage extends StatelessWidget {
             Get.back();
           },
         ),
-        title: Text('Update Profile', style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text('Update Your Profile', style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
 
       body: SingleChildScrollView(

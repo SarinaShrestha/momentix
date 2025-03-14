@@ -6,7 +6,6 @@ import 'package:frontend/features/core/widgets/profile_details_widget.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
-import 'package:frontend/utils/text_strings.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';

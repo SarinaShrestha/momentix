@@ -8,6 +8,7 @@ class AuthenticationRepository extends GetxController{
   static AuthenticationRepository get instance => Get.find();
 
   final _auth  = FirebaseAuth.instance;
+  User? get authUser => _auth.currentUser;
   late final Rx<User?> firebaseUser;
 
   @override

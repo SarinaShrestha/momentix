@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/model/user_model.dart';
+import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxController{
@@ -44,6 +45,24 @@ class UserRepository extends GetxController{
   }
 
   Future<UserModel> getUserData(String email) async {
+    try{
+      final user = await _db.collection("Users").doc(AuthenticationRepository.instance.authUser?.uid).get();
+
+      if (user.exists) {
+        return UserModel.fromSnapshot(user);
+      } else {
+        return UserModel.empty();
+      }
+    } on FirebaseException catch (e) {
+      print('Error: ${e.message}');
+    } on FormatException catch (e) {
+      print('Error: ${e.message}');
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+
+
+
     final user = await _db.collection('Users').where('email', isEqualTo: email).get();
     final userData = user.docs.map((e) => UserModel.fromSnapshot(e)).single;
     return userData;

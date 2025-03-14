@@ -15,6 +15,15 @@ class UserModel {
     required this.profilePicture,
   });
 
+  static UserModel empty() {
+    return UserModel(
+      email: '',
+      name: '',
+      password: '',
+      profilePicture: '',
+    );
+  }
+  
   toJson() {
     return {
       "Id": id,

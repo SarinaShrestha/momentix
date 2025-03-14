@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/core/views/events/event_creation.dart';
 import 'package:frontend/features/core/views/events/events.dart';
 import 'package:frontend/features/core/views/gallery/gallery.dart';
 import 'package:frontend/features/core/views/profile/profile_page.dart';
@@ -19,19 +20,15 @@ class HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     HomeContent(),
     GalleryPage(),
-    Container(), 
+    EventScreen(), 
     EventsPage(),
     ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
-    if (index == 2) {
-      _showCreateJoinDialog();
-    } else {
-      setState(() {
+    setState(() {
         _selectedIndex = index;
       });
-    }
   }
 
   void _showCreateJoinDialog() {

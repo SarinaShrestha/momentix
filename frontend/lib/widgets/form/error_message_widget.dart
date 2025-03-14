@@ -9,49 +9,59 @@ class ErrorMessageWidget extends StatelessWidget {
   });
 
   final String text;
+  
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Container(
-          padding: const EdgeInsets.all(15),
-          height: 95,
-          decoration: BoxDecoration(
-            color: errorRed,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Row(
-            children: [
-              const SizedBox(width: 48),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Oh Snap!',
-                      style: TextStyle(
-                        color: Colors.white, 
-                        fontSize: 16, 
-                        fontWeight: FontWeight.bold,
+        SizedBox(
+          //height: 0.15* size.height,
+          width: 0.95*size.width,
+          //bottom: 10,
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            height: 0.13 * size.height,
+            clipBehavior: Clip.none,
+          
+            decoration: BoxDecoration(
+              color: errorRed,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 48),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Oh Snap!',
+                        style: TextStyle(
+                          color: Colors.white, 
+                          fontSize: 16, 
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      text,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
+                      const Spacer(),
+                      Text(
+                        text,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         // Error Image
