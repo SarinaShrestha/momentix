@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:frontend/features/core/widgets/events_widgets/event_creation_form_widget.dart';
 import 'package:frontend/features/core/widgets/events_widgets/qr_display_widget.dart';
+import 'package:frontend/utils/colors.dart';
+import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -63,7 +66,9 @@ class _EventPageState extends State<EventScreen> {
       } else if (step == 2) {
         eventType = value;
         qrData = "$eventName\n$eventDate\n$eventType";
+        isQRCodeGenerated = true;
       }
+
       step++;
       _controller.clear();
     });
@@ -181,27 +186,84 @@ Widget build(BuildContext context) {
 
   return Scaffold(
     appBar: AppBar(
-      title: Text(isJoiningEvent ? "Join Event" : "Create Event"),
-    ),
+        centerTitle: true,
+        title: Padding(
+          padding: EdgeInsets.all(0.01 * size.width),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 0.35 * size.width,
+                    child: ThinElevatedButtonWidget(
+                      buttonName: 'Join Event',
+                      onPressed: toggleCreateEvent,
+                      outlined: isJoiningEvent,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 0.35 * size.width,
+                    child: ThinElevatedButtonWidget(
+                      buttonName: 'Create Event',
+                      onPressed: toggleJoinEvent,
+                      outlined: !isJoiningEvent,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
+        backgroundColor: black,
+        toolbarHeight: 0.15 * size.height,
+      ),
     body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (!isJoiningEvent && !isQRCodeGenerated)
-            EventCreationFormWidget(
-              step: step,
-              controller: _controller,
-              eventDate: eventDate,
-              onSelectDate: () => _selectDate(),
-              onNextStep: nextStep,
+          if (isJoiningEvent)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: size.height * 0.7,
+                  width: size.width,
+                  child: MobileScanner(
+                    onDetect: (barcode) {
+                      if (barcode.barcodes.isNotEmpty && barcode.barcodes.first.rawValue != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Joined Event: ${barcode.barcodes.first.rawValue}")));
+                      }
+                    }
+                  )
+                )
+              ]
             ),
-          if (isQRCodeGenerated)
-            QRCodeDisplayWidget(
-              qrKey: _qrKey,
-              qrData: qrData,
-              onSave: _captureAndSavePng,
-              onShare: saveAndShareQRImage,
-            ),
+          if (!isJoiningEvent)
+            isQRCodeGenerated
+                ? QRCodeDisplayWidget(
+                    qrKey: _qrKey,
+                    qrData: qrData,
+                    onSave: _captureAndSavePng,
+                    onShare: saveAndShareQRImage,
+                  )
+                : EventCreationFormWidget(
+                    step: step,
+                    controller: _controller,
+                    eventDate: eventDate,
+                    onSelectDate: _selectDate,
+                    onNextStep: nextStep,
+                  ),
+
+          // if (!isQRCodeGenerated)
+          //   QRCodeDisplayWidget(
+          //     qrKey: _qrKey,
+          //     qrData: qrData,
+          //     onSave: _captureAndSavePng,
+          //     onShare: saveAndShareQRImage,
+          //   ),
         ],
       ),
     ),
