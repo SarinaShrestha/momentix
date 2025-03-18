@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CreateEventSectionWidget {
+class CreateEventSectionWidget extends StatelessWidget {
+  const CreateEventSectionWidget({super.key});
 
+  @override
   Widget build(BuildContext context) {
     TextEditingController eventController = TextEditingController();
     return Container(
