@@ -71,9 +71,13 @@ class EventCreationFormWidget extends StatelessWidget {
                 Column(
                   children: [
                     EventTypeButtonWidget("Wedding", "💍 Wedding", onNextStep),
+                    SizedBox(height: size.height * 0.01,),
                     EventTypeButtonWidget("Party", "🎉 Party", onNextStep),
+                    SizedBox(height: size.height * 0.01,),
                     EventTypeButtonWidget("Conference", "🎤 Conference", onNextStep),
+                    SizedBox(height: size.height * 0.01,),
                     EventTypeButtonWidget("Birthday", "🎂 Birthday", onNextStep),
+                    SizedBox(height: size.height * 0.01,),
                     EventTypeButtonWidget("Other", "❓ Other", onNextStep),
                   ],
                 ),

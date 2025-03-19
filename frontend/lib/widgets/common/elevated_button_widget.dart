@@ -7,7 +7,7 @@ class ElevatedButtonWidget extends StatelessWidget {
     required this.buttonName, 
     required this.onPressed,
     required this.color,
-    this.textColor
+    this.textColor,
   });
 
   final String buttonName;

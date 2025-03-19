@@ -30,3 +30,5 @@ const buttonYellow = Color(0xFFFFD700);
 const black = Colors.black;
 const textBlue = Color(0XFF4A90E2);
 const backgroundBlue = Color(0XFFB4DAF3);
+const lightBlue = Color(0xFF76ABDF);
+
