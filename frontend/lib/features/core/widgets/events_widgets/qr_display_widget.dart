@@ -16,6 +16,7 @@ class QRCodeDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         RepaintBoundary(
@@ -31,9 +32,9 @@ class QRCodeDisplayWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: onSave, child: Text("Save QR")),
-            SizedBox(width: 10),
-            ElevatedButton(onPressed: onShare, child: Text("Share QR")),
+            IconButton(onPressed: onSave, icon: Icon(Icons.save_alt_rounded),iconSize: 35),
+            SizedBox(width: size.width * 0.3),
+            IconButton(onPressed: onShare, icon: Icon(Icons.share_rounded),iconSize: 35),
           ],
         ),
       ],
