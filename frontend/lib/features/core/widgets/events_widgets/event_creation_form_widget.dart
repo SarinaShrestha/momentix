@@ -21,6 +21,7 @@ class EventCreationFormWidget extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
@@ -51,11 +52,21 @@ class EventCreationFormWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium
                 )
               else if (step == 1) 
-                ElevatedButtonWidget(
-                  onPressed: onSelectDate,
-                  buttonName: eventDate.isEmpty ? "Select Date" : "Selected: $eventDate",
-                  color: outlineBlue,
-                  )
+                Row(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.62 ,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                          hintText: eventDate.isEmpty ? "Select Date" : "Selected: $eventDate",
+                        ),
+                      ),
+                    ),
+                    IconButton(onPressed: onSelectDate, icon: Icon(Icons.calendar_month_outlined), iconSize: size.width * 0.1,)
+                  ],
+                )
               else
                 Column(
                   children: [
