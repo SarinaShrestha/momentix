@@ -1,22 +1,93 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/core/controller/event/event_controller.dart';
 import 'package:frontend/features/core/widgets/events_widgets/event_type_button_widget.dart';
+import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 
-class EventCreationFormWidget extends StatelessWidget {
-  final int step;
-  final TextEditingController controller;
-  final String eventDate;
-  final VoidCallback onSelectDate;
-  final Function(String) onNextStep;
+class EventCreationFormWidget extends StatefulWidget {
+  @override
+  _EventCreationFormWidgetState createState() => _EventCreationFormWidgetState();
+}
 
-  const EventCreationFormWidget({
-    required this.step,
-    required this.controller,
-    required this.eventDate,
-    required this.onSelectDate,
-    required this.onNextStep,
-  });
+class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
+  final TextEditingController _eventNameController = TextEditingController();
+  String _eventDate = "";
+  String _eventType = "";
+  int _step = 0;
+  final EventController _eventController = EventController();
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2027)
+    );
+    if (picked != null) {
+      setState(() {
+        _eventDate = "${picked.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
+  void _onNextStep(String value) {
+    setState(() {
+      if (_step == 0) {
+        _eventNameController.text = value; 
+      } else if (_step == 1) {
+        _eventDate = value; 
+      } else if (_step == 2) {
+        _eventType = value; 
+      }
+      _step++; 
+    });
+  }
+  
+  Future<void> _createEvent() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    // User is not authenticated
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("You must be logged in to create an event.")),
+    );
+    return;
+  }
+
+  
+    final String eventName = _eventNameController.text;
+    final String creatorId = FirebaseAuth.instance.currentUser!.uid;
+
+    final String? nameError = _eventController.validateEventName(eventName);
+    final String? dateError = _eventController.validateEventDate(_eventDate);
+    final String? typeError = _eventController.validateEventType(_eventType);
+
+    if (nameError != null || dateError != null || typeError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(nameError ?? dateError ?? typeError!)),
+      );
+      return;
+    }
+
+    try {
+      String eventId = await _eventController.createEvent(
+        eventName: eventName,
+        eventDate: _eventDate,
+        eventType: _eventType,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Event created successfully! Event ID: $eventId")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to create event: $e")),
+      );
+    }
+  }
 
   
   @override
@@ -34,24 +105,24 @@ class EventCreationFormWidget extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                step == 0
+                _step == 0
                     ? "Give your event a name"
-                    : step == 1
+                    : _step == 1
                         ? "Select the event date"
                         : "What kind of event is it?",
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),
               ),
               SizedBox(height: 30),
-              if (step == 0)
+              if (_step == 0)
                 TextField(
-                  controller: controller,
+                  controller: _eventNameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                     hintText: "Event Name",
                   ),
                   style: Theme.of(context).textTheme.bodyMedium
                 )
-              else if (step == 1) 
+              else if (_step == 1) 
                 Row(
                   children: [
                     SizedBox(
@@ -60,40 +131,61 @@ class EventCreationFormWidget extends StatelessWidget {
                         enabled: false,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                          hintText: eventDate.isEmpty ? "Select Date" : "Selected: $eventDate",
+                          hintText: _eventDate.isEmpty ? "Select Date" : "Selected: $_eventDate",
                         ),
                       ),
                     ),
-                    IconButton(onPressed: onSelectDate, icon: Icon(Icons.calendar_month_outlined), iconSize: size.width * 0.1,)
+                    IconButton(onPressed: () => _selectDate(context), icon: Icon(Icons.calendar_month_outlined), iconSize: size.width * 0.1,)
                   ],
                 )
               else
                 Column(
                   children: [
-                    EventTypeButtonWidget("Wedding", "💍 Wedding", onNextStep),
+                    EventTypeButtonWidget("Wedding", "💍 Wedding", _onNextStep),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Party", "🎉 Party", onNextStep),
+                    EventTypeButtonWidget("Party", "🎉 Party", _onNextStep),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Conference", "🎤 Conference", onNextStep),
+                    EventTypeButtonWidget("Conference", "🎤 Conference", _onNextStep),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Birthday", "🎂 Birthday", onNextStep),
+                    EventTypeButtonWidget("Birthday", "🎂 Birthday", _onNextStep),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Other", "❓ Other", onNextStep),
+                    EventTypeButtonWidget("Other", "❓ Other", _onNextStep),
                   ],
                 ),
     
               SizedBox(height: 40),
-              if (step < 2)
+              if (_step < 2)
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButtonWidget(
-                    onPressed: () => onNextStep(controller.text),
+                    onPressed: () {
+                      if (_step == 0 && _eventNameController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please enter an event name.")),
+                        );
+                      } else if (_step == 1 && _eventDate.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please select a date.")),
+                        );
+                      } else {
+                        _onNextStep(_step == 0 ? _eventNameController.text : _eventDate);
+                      }
+                    },
                     buttonName: "Continue",
                     color: outlineBlue,
                   ),
                 ),
               
-              SizedBox(height: 20,)
+              SizedBox(height: 20,),
+              if (_step >= 2)
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButtonWidget(
+                    onPressed: _createEvent,
+                    buttonName: "Create Event",
+                    color: outlineBlue,
+                  ),
+                )
             ],
           ),
         ),

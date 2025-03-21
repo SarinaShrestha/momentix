@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:frontend/features/core/widgets/events_widgets/event_creation_form_widget.dart';
 import 'package:frontend/features/core/widgets/events_widgets/qr_display_widget.dart';
+import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -232,9 +234,20 @@ Widget build(BuildContext context) {
                   height: size.height * 0.7,
                   width: size.width,
                   child: MobileScanner(
-                    onDetect: (barcode) {
+                    onDetect: (barcode) async {
                       if (barcode.barcodes.isNotEmpty && barcode.barcodes.first.rawValue != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Joined Event: ${barcode.barcodes.first.rawValue}")));
+                        String eventId = barcode.barcodes.first.rawValue!;
+                        String attendeeId = FirebaseAuth.instance.currentUser!.uid;
+                        try{
+                          await EventRepository().addAttendee(eventId: eventId, attendeeId: attendeeId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("You have successfully joined the event!")),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Failed to join the event: $e")),
+                          );
+                        }
                       }
                     }
                   )
@@ -249,21 +262,7 @@ Widget build(BuildContext context) {
                     onSave: _captureAndSavePng,
                     onShare: saveAndShareQRImage,
                   )
-                : EventCreationFormWidget(
-                    step: step,
-                    controller: _controller,
-                    eventDate: eventDate,
-                    onSelectDate: _selectDate,
-                    onNextStep: nextStep,
-                  ),
-
-          // if (!isQRCodeGenerated)
-          //   QRCodeDisplayWidget(
-          //     qrKey: _qrKey,
-          //     qrData: qrData,
-          //     onSave: _captureAndSavePng,
-          //     onShare: saveAndShareQRImage,
-          //   ),
+                : EventCreationFormWidget(),
         ],
       ),
     ),

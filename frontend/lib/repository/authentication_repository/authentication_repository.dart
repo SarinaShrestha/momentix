@@ -22,6 +22,10 @@ class AuthenticationRepository extends GetxController{
     user == null? Get.offAll(() => const LoginPage()) : Get.offAll(() => const HomePage());
   }
 
+  String? getCurrentUserId() {
+    return _auth.currentUser?.uid;
+  }
+  
   Future<UserCredential> createUserWithEmailAndPassword(String email, String password) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
