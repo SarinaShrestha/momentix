@@ -8,7 +8,7 @@ import 'package:frontend/utils/colors.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 
 class EventCreationFormWidget extends StatefulWidget {
-  final Function (String, String, String) onEventCreated;
+  final Function (String, String, String, String) onEventCreated;
 
   EventCreationFormWidget({required this.onEventCreated});
 
@@ -86,8 +86,8 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
         eventType: _eventType,
       );
 
-      widget.onEventCreated(eventName, _eventDate, _eventType);
-      
+      widget.onEventCreated(eventName, _eventDate, _eventType, eventId);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Event created successfully! Event ID: $eventId")),
       );
@@ -113,15 +113,22 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Text(
-                _step == 0
-                    ? "Give your event a name"
-                    : _step == 1
-                        ? "Select the event date"
-                        : "What kind of event is it?",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),
-              ),
+              if (_step < 2)
+                Text(
+                  _step == 0
+                  ? "Give your event a name"
+                  : "Select the event date",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),
+                ),
+              
+              if (_step == 2)
+                Text(
+                  "What type of event is it?",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16)
+                ),
+
               SizedBox(height: 30),
+              
               if (_step == 0)
                 TextField(
                   controller: _eventNameController,
@@ -150,15 +157,50 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
               else if(_step ==2)
                 Column(
                   children: [
-                    EventTypeButtonWidget("Wedding", "💍 Wedding", _onNextStep),
+                    EventTypeButtonWidget("Wedding", "💍 Wedding", 
+                    (value) {
+                      setState(() {
+                        _eventType = value;
+                      });
+                    },
+                      isSelected : _eventType == "Wedding",
+                    ),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Party", "🎉 Party", _onNextStep),
+                    EventTypeButtonWidget("Party", "🎉 Party", 
+                    (value) {
+                      setState(() {
+                        _eventType = value;
+                      });
+                    },
+                      isSelected : _eventType == "Party",
+                    ),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Conference", "🎤 Conference", _onNextStep),
+                    EventTypeButtonWidget("Conference", "🎤 Conference", 
+                    (value) {
+                      setState(() {
+                        _eventType = value;
+                      });
+                    },
+                      isSelected : _eventType == "Conference",
+                    ),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Birthday", "🎂 Birthday", _onNextStep),
+                    EventTypeButtonWidget("Birthday", "🎂 Birthday", 
+                    (value) {
+                      setState(() {
+                        _eventType = value;
+                      });
+                    },
+                      isSelected : _eventType == "Birthday",
+                    ),
                     SizedBox(height: size.height * 0.01,),
-                    EventTypeButtonWidget("Other", "❓ Other", _onNextStep),
+                    EventTypeButtonWidget("Other", "❓ Other", 
+                    (value) {
+                      setState(() {
+                        _eventType = value;
+                      });
+                    },
+                      isSelected : _eventType == "Other",
+                    ),
                   ],
                 ),
     

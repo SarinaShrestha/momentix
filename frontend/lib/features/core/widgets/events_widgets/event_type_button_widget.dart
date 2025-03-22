@@ -6,18 +6,36 @@ class EventTypeButtonWidget extends StatelessWidget {
   final String value;
   final String label;
   final Function(String) onPressed;
+  final bool isSelected;
 
-  const EventTypeButtonWidget(this.value, this.label, this.onPressed);
+  const EventTypeButtonWidget(this.value, this.label, this.onPressed, {this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity, // Make buttons full width
-      child: ElevatedButtonWidget(
-        onPressed: () => onPressed(value),
-        buttonName: label, 
-        color: outlineBlue,
+      child: ElevatedButton(
+      onPressed: () => onPressed(value),
+      style: ElevatedButton.styleFrom(
+        
+        backgroundColor: isSelected ? outlineBlue : white, 
+        foregroundColor: isSelected ? white : outlineBlue,
+        side: BorderSide(color: outlineBlue),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 15.0),
       ),
-    );
+      child: Text(
+        label,
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600, // 600 weight
+          fontSize: 16.0,
+          color: isSelected ? white : textGray,
+        ),
+      ),
+    )
+  );
   }
 }
