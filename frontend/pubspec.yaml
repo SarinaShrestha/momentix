@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.20.2
   screenshot: ^3.0.0
   gallery_saver_plus: ^3.1.0
+  cloudinary: ^1.2.0
   
 
 dev_dependencies:

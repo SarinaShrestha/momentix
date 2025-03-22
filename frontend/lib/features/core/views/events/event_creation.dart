@@ -28,6 +28,7 @@ class _EventPageState extends State<EventScreen> {
   bool dirExists = false;
 
   //Event Details
+  String eventId ="";
   String eventName = "";
   String eventDate = "";
   String eventType = "";
@@ -85,19 +86,19 @@ class _EventPageState extends State<EventScreen> {
     }
   }
 
-  Future<void> _selectDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2027)
-    );
-    if (picked != null) {
-      setState(() {
-        eventDate = "${picked.toLocal()}".split(' ')[0];
-      });
-    }
-  }
+  // Future<void> _selectDate() async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(2027)
+  //   );
+  //   if (picked != null) {
+  //     setState(() {
+  //       eventDate = "${picked.toLocal()}".split(' ')[0];
+  //     });
+  //   }
+  // }
 
   Future<void> _captureAndSavePng() async {
   try {
@@ -255,14 +256,25 @@ Widget build(BuildContext context) {
               ]
             ),
           if (!isJoiningEvent)
-            isQRCodeGenerated
-                ? QRCodeDisplayWidget(
+            !isQRCodeGenerated
+                ? EventCreationFormWidget(
+                  onEventCreated: (String eventId, String eventName, String eventDate, String eventType) {
+                    setState(() {
+                      this.eventName = eventName;
+                      this.eventDate =  eventDate;
+                      this.eventType = eventType;
+                      this.eventId = eventId;
+                      qrData = "Event ID: $eventId\nEvent Name: $eventName\nEvent Date: $eventDate\nEvent Type:$eventType";
+                      isQRCodeGenerated = true;
+                    });
+                  }
+                )
+                :  QRCodeDisplayWidget(
                     qrKey: _qrKey,
                     qrData: qrData,
                     onSave: _captureAndSavePng,
                     onShare: saveAndShareQRImage,
-                  )
-                : EventCreationFormWidget(),
+                  ),
         ],
       ),
     ),

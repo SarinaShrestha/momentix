@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/model/user_model.dart';
-import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
+
 import 'package:get/get.dart';
 
 class EventRepository extends GetxController{
@@ -16,7 +15,10 @@ class EventRepository extends GetxController{
     required String creatorId
     }) async{
     try {
-      DocumentReference docRef = await _db.collection('Events').add({
+      DocumentReference docRef = _db.collection('Events').doc();
+
+      docRef.set({
+        "Event Id": docRef.id,        
         'Event Name': eventName,
         "Event Date": eventDate,
         "Event Type": eventType,

@@ -2,11 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/core/controller/event/event_controller.dart';
 import 'package:frontend/features/core/widgets/events_widgets/event_type_button_widget.dart';
+import 'package:frontend/features/core/widgets/events_widgets/qr_display_widget.dart';
 import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 
 class EventCreationFormWidget extends StatefulWidget {
+  final Function (String, String, String) onEventCreated;
+
+  EventCreationFormWidget({required this.onEventCreated});
+
   @override
   _EventCreationFormWidgetState createState() => _EventCreationFormWidgetState();
 }
@@ -17,6 +22,7 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
   String _eventType = "";
   int _step = 0;
   final EventController _eventController = EventController();
+  bool isQRCodeGenerated = false;
 
 
   Future<void> _selectDate(BuildContext context) async {
@@ -49,15 +55,15 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
   Future<void> _createEvent() async {
     final User? user = FirebaseAuth.instance.currentUser;
 
-  if (user == null) {
-    // User is not authenticated
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("You must be logged in to create an event.")),
-    );
-    return;
-  }
+    if (user == null) {
+      // User is not authenticated
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You must be logged in to create an event.")),
+      );
+      return;
+    }
 
-  
+
     final String eventName = _eventNameController.text;
     final String creatorId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -73,12 +79,15 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
     }
 
     try {
+
       String eventId = await _eventController.createEvent(
         eventName: eventName,
         eventDate: _eventDate,
         eventType: _eventType,
       );
 
+      widget.onEventCreated(eventName, _eventDate, _eventType);
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Event created successfully! Event ID: $eventId")),
       );
@@ -138,7 +147,7 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
                     IconButton(onPressed: () => _selectDate(context), icon: Icon(Icons.calendar_month_outlined), iconSize: size.width * 0.1,)
                   ],
                 )
-              else
+              else if(_step ==2)
                 Column(
                   children: [
                     EventTypeButtonWidget("Wedding", "💍 Wedding", _onNextStep),
