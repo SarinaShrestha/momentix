@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:frontend/features/authentication/model/user_model.dart';
+import 'package:frontend/features/core/model/event_model.dart';
 
 import 'package:get/get.dart';
 
@@ -22,9 +22,10 @@ class EventRepository extends GetxController{
         'Event Name': eventName,
         "Event Date": eventDate,
         "Event Type": eventType,
-        "Creator Id": creatorId,
+        "CreatorId": creatorId,
         "Created At": Timestamp.now(),
         "Attendees": [],
+        "QR Code Url": "",
       });
 
       return docRef.id;
@@ -50,8 +51,30 @@ class EventRepository extends GetxController{
     }
   }
 
-  Future<void> updateUserDetails(UserModel user) async {
-    await _db.collection("Users").doc(user.id).update(user.toJson());
+  Future<void> updateEventDetails(EventModel event) async {
+    await _db.collection("Users").doc(event.eventId).update(event.toJson());
+  }
+
+  Future<void> storeQRCodeUrl(String eventId, String qrCodeUrl) async {
+    try {
+      await _db.collection('Events').doc(eventId).update({
+        'QR Code Url': qrCodeUrl,
+      });
+    } catch (e) {
+      print("Error storing QR code URL: $e");
+      throw Exception("Failed to store QR code URL");
+    }
+  }
+
+  // Retrieve QR code URL from Firestore
+  Future<String> getQRCodeUrl(String eventId) async {
+    try {
+      final doc = await _db.collection('Events').doc(eventId).get();
+      return doc['QR Code Url'];
+    } catch (e) {
+      print("Error retrieving QR code URL: $e");
+      throw Exception("Failed to retrieve QR code URL");
+    }
   }
 
  

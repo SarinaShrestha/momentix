@@ -35,7 +35,7 @@ class _EventPageState extends State<EventScreen> {
   String qrData = "";
 
 
-  GlobalKey _qrKey = GlobalKey();
+  GlobalKey qrKey = GlobalKey();
   dynamic externalDir = '/Storage/Internal storage/Download/QR_Code';
 
   ScreenshotController screenshotController = ScreenshotController();
@@ -60,31 +60,31 @@ class _EventPageState extends State<EventScreen> {
       isQRCodeGenerated = false;
     });
   }
-  void nextStep(String value) {
-    setState(() {
-      if (step == 0) {
-        eventName = value;
-      } else if (step == 1) {
-        eventDate = value;
-      } else if (step == 2) {
-        eventType = value;
-        qrData = "$eventName\n$eventDate\n$eventType";
-        isQRCodeGenerated = true;
-      }
+  // void nextStep(String value) {
+  //   setState(() {
+  //     if (step == 0) {
+  //       eventName = value;
+  //     } else if (step == 1) {
+  //       eventDate = value;
+  //     } else if (step == 2) {
+  //       eventType = value;
+  //       qrData = "$eventName\n$eventDate\n$eventType";
+  //       isQRCodeGenerated = true;
+  //     }
 
-      step++;
-      _controller.clear();
-    });
-  }
+  //     step++;
+  //     _controller.clear();
+  //   });
+  // }
 
-  void generateQRCode() {
-    if (eventName.isNotEmpty) {
-      setState(() {
-        qrData = "event://$eventName";
-        isQRCodeGenerated = true;
-      });
-    }
-  }
+  // void generateQRCode() {
+  //   if (eventName.isNotEmpty) {
+  //     setState(() {
+  //       qrData = "event://$eventId";
+  //       isQRCodeGenerated = true;
+  //     });
+  //   }
+  // }
 
   // Future<void> _selectDate() async {
   //   final DateTime? picked = await showDatePicker(
@@ -102,7 +102,7 @@ class _EventPageState extends State<EventScreen> {
 
   Future<void> _captureAndSavePng() async {
   try {
-    RenderRepaintBoundary boundary = _qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -133,7 +133,7 @@ class _EventPageState extends State<EventScreen> {
   Future<void> saveQRImage() async {
   try {
     await Future.delayed(Duration(milliseconds: 500)); // Ensure rendering is done
-    RenderRepaintBoundary boundary = _qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage();
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -160,7 +160,7 @@ class _EventPageState extends State<EventScreen> {
   Future<void> saveAndShareQRImage() async {
   try {
     await Future.delayed(Duration(milliseconds: 500)); // Ensures rendering
-    RenderRepaintBoundary boundary = _qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
     if (boundary.debugNeedsPaint) {
       await Future.delayed(Duration(milliseconds: 500));
@@ -270,8 +270,9 @@ Widget build(BuildContext context) {
                   }
                 )
                 :  QRCodeDisplayWidget(
-                    qrKey: _qrKey,
+                    qrKey: qrKey,
                     qrData: qrData,
+                    eventId: eventId,
                     onSave: _captureAndSavePng,
                     onShare: saveAndShareQRImage,
                   ),
