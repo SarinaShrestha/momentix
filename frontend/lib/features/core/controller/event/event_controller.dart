@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:ui';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
 import 'package:frontend/repository/cloudinary/cloudinary_service.dart';
 import 'package:frontend/utils/colors.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class EventController {
@@ -36,7 +38,7 @@ class EventController {
     return null;
   }
 
-  Future<Uint8List> _generateQRCodeImage(String eventId) async {
+  Future<File> _generateQRCodeImage(String eventId) async {
     try {
       final qrPainter = QrPainter(
         data: eventId,
@@ -57,7 +59,16 @@ class EventController {
       qrPainter.paint(canvas, const Size(200, 200));
       final image = await recorder.endRecording().toImage(200, 200);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      return byteData!.buffer.asUint8List();
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/$eventId.png';
+      final file = File(filePath);
+      
+      await file.writeAsBytes(pngBytes);
+      print("QR Code saved at: $filePath");
+
+      return file;
     } catch (e) {
       print("Error generating QR code image: $e");
       throw Exception("Failed to generate QR code image");
@@ -82,9 +93,24 @@ class EventController {
 
       final qrImageBytes = await _generateQRCodeImage(eventId);
 
-      final qrCodeUrl = await _cloudinaryService.uploadQRCode(qrImageBytes, eventId);
+      // Upload QR code image to Cloudinary
+      final qrCodeUrl = await _cloudinaryService.uploadQRCode(await qrImageBytes.readAsBytes(), eventId);
 
+      // Store the QR Code URL in Firestore
+      //await _eventRepository.storeQRCodeUrl(eventId, qrCodeUrl);
+
+      if (qrCodeUrl != null) {
+      // Step 4: Store the Cloudinary URL in Firestore
       await _eventRepository.storeQRCodeUrl(eventId, qrCodeUrl);
+    } else {
+      print("Error: QR Code URL is null.");
+    }
+
+      // final qrImageBytes = await _generateQRCodeImage(eventId);
+
+      // final qrCodeUrl = await _cloudinaryService.uploadQRCode(qrImageBytes, eventId);
+
+      // await _eventRepository.storeQRCodeUrl(eventId, qrCodeUrl);
 
       return eventId;
     } catch (e) {

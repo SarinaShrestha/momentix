@@ -3,11 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/views/login/login.dart';
 import 'package:frontend/features/authentication/views/register/signup.dart';
+import 'package:frontend/features/core/user_events/controller/user_events_controller.dart';
 import 'package:frontend/features/core/views/home/home_page.dart';
 import 'package:frontend/features/core/views/home/home_screen.dart';
 import 'package:frontend/firebase_options.dart';
 import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'utils/theme.dart';
 
 void main() async {
@@ -22,7 +24,14 @@ void main() async {
 
   Get.put(AuthenticationRepository());
 
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserEventsController()),
+      ],
+        child: const MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {

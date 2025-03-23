@@ -76,6 +76,7 @@ class EventRepository extends GetxController{
       throw Exception("Failed to retrieve QR code URL");
     }
   }
+}
+
 
  
-}

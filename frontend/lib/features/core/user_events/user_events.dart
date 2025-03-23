@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/core/user_events/controller/user_events_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:frontend/features/core/views/home/home_page.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/widgets/cards/event_card_widget.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
 
-class EventsPage extends StatelessWidget {
+class EventsPage extends StatefulWidget {
+  @override
+  _EventsPageState createState() => _EventsPageState();
+}
+class _EventsPageState extends State<EventsPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<UserEventsController>(context, listen: false).loadUserEvents());
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final userEventsController = Provider.of<UserEventsController>(context);
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 23,
         centerTitle: true,
         clipBehavior: Clip.none,
         title: Padding(
@@ -70,17 +85,24 @@ class EventsPage extends StatelessWidget {
       ),
 
 
-      body: Column(
-        children: [
-          SizedBox(height: 40),
-          EventCardWidget(
-            eventName: 'Event Name',
-            pictureCount: 5,
-            createdOn: '2024-10-10',
-            imageUrl: loginImage,
-          ),
-        ],
-      ),
+      body: userEventsController.isLoading
+      ? const Center(child: CircularProgressIndicator(),)
+      : userEventsController.errorMessage != null
+        ? Center(child: Text(userEventsController.errorMessage!))
+        : ListView.builder(
+          padding: const EdgeInsets.only(top: 30.0),
+          itemCount: userEventsController.events.length,
+          itemBuilder: (context, index){
+            final event = userEventsController.events[index];
+
+            return EventCardWidget(
+              eventName: event['Event Name'] ?? 'Unknown Event',
+              pictureCount: event['pictureCount']?? 0,
+              createdOn: event['Event Date'] ?? 'Unknown Date',
+              imageUrl: loginImage,
+
+            );
+          })
     );
   }
 }

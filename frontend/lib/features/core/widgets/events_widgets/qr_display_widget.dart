@@ -74,33 +74,35 @@ class _QRCodeDisplayWidgetState extends State<QRCodeDisplayWidget> {
 
   static Future<Uint8List?> captureQrCode(GlobalKey qrKey) async {
     try {
-      final context = qrKey.currentContext;
-      if (context == null) {
-        print("QR Key context is null");
-      }
+      
+      // final context = qrKey.currentContext;
+      // if (context == null) {
+      //   print("QR Key context is null");
+      // }
 
-      final renderObject = context!.findRenderObject();
-      if (renderObject == null) {
-        print('Render object is null');
-        return null;
-      }
+      // final renderObject = context!.findRenderObject();
+      // if (renderObject == null) {
+      //   print('Render object is null');
+      //   return null;
+      // }
 
-      // Ensure the render object is a RenderRepaintBoundary
-      if (renderObject is! RenderRepaintBoundary) {
-        print('Render object is not a RenderRepaintBoundary');
-        return null;
-      }
+      // // Ensure the render object is a RenderRepaintBoundary
+      // if (renderObject is! RenderRepaintBoundary) {
+      //   print('Render object is not a RenderRepaintBoundary');
+      //   return null;
+      // }
 
-      final boundary = renderObject;
-      final image = await boundary.toImage();
-      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      // final boundary = renderObject;
+      // final image = await boundary.toImage();
+      // final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
-      return byteData?.buffer.asUint8List();
-      // RenderRepaintBoundary boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      // ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      // ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      // Uint8List pngBytes = byteData!.buffer.asUint8List();
-      // return pngBytes;
+      // return byteData?.buffer.asUint8List();
+
+      RenderRepaintBoundary boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      return pngBytes;
 
       // final boundary = qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       // final image = await boundary.toImage();
