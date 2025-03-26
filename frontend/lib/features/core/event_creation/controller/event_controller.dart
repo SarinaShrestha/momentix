@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
+import 'package:frontend/repository/event_repository/event_repository.dart';
 import 'package:frontend/repository/cloudinary/cloudinary_service.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:path_provider/path_provider.dart';

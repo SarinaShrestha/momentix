@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/model/user_model.dart';
-import 'package:frontend/features/core/controller/profile/profile_controller.dart';
+import 'package:frontend/features/core/profile/controller/profile_controller.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';

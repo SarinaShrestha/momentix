@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
-import 'package:frontend/widgets/cards/event_card_widget.dart';
+import 'package:frontend/features/core/user_events/widgets/event_card_widget.dart';
 
 class GalleryPage extends StatelessWidget {
   @override

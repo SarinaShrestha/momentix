@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/repository/authentication_repository/event_repository/user_events_repositry.dart';
+import 'package:frontend/repository/event_repository/user_events_repositry.dart';
 
 class UserEventsController extends ChangeNotifier {
   final UserEventsRepository _eventsRepository = UserEventsRepository();

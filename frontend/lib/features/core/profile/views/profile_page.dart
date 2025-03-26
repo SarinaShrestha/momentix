@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/core/views/profile/update_profile_page.dart';
-import 'package:frontend/features/core/widgets/profile_details_widget.dart';
+import 'package:frontend/features/authentication/controller/login_controller.dart';
+import 'package:frontend/features/core/profile/views/update_profile_page.dart';
+import 'package:frontend/features/core/profile/widget/profile_details_widget.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -30,6 +32,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: (){}, icon: const Icon(LineAwesomeIcons.angle_left)),
@@ -147,7 +150,9 @@ class ProfilePage extends StatelessWidget {
 
               Center(
                 child: TextButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                    controller.logoutUser(context);
+                  }, 
                   child: Text('Logout', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontSize: 14)),
                 ),
               )

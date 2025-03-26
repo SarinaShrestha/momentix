@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/core/user_events/controller/user_events_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/features/core/views/home/home_page.dart';
+import 'package:frontend/features/core/home/views/home_page.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
-import 'package:frontend/widgets/cards/event_card_widget.dart';
+import 'package:frontend/features/core/user_events/widgets/event_card_widget.dart';
 import 'package:frontend/widgets/common/thin_elevated_button_widget.dart';
 
 class EventsPage extends StatefulWidget {
@@ -26,7 +26,6 @@ class _EventsPageState extends State<EventsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 23,
         centerTitle: true,
         clipBehavior: Clip.none,
         title: Padding(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/core/views/events/event_creation.dart';
-import 'package:frontend/features/core/user_events/user_events.dart';
-import 'package:frontend/features/core/views/gallery/gallery.dart';
-import 'package:frontend/features/core/views/profile/profile_page.dart';
-import 'package:frontend/features/core/widgets/bottom_nav_bar.dart';
+import 'package:frontend/features/core/event_creation/views/event_creation.dart';
+import 'package:frontend/features/core/user_events/views/user_events.dart';
+import 'package:frontend/features/core/gallery/views/gallery.dart';
+import 'package:frontend/features/core/profile/views/profile_page.dart';
+import 'package:frontend/features/core/home/widgets/bottom_nav_bar.dart';
 import 'package:frontend/utils/colors.dart';
 
 

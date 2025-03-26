@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/features/core/views/home/home_page.dart';
+import 'package:frontend/features/core/home/views/home_page.dart';
 import 'package:frontend/repository/authentication_repository/exceptions/signup_failure.dart';
 import 'package:frontend/features/authentication/views/login/login.dart';
 import 'package:get/get.dart';
@@ -25,7 +25,7 @@ class AuthenticationRepository extends GetxController{
   String? getCurrentUserId() {
     return _auth.currentUser?.uid;
   }
-  
+
   Future<UserCredential> createUserWithEmailAndPassword(String email, String password) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);

@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/features/authentication/controller/login_controller.dart';
-import 'package:frontend/features/core/views/home/home_page.dart';
+import 'package:frontend/features/core/home/views/home_page.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/utils/image_strings.dart';
 import 'package:frontend/utils/sizes.dart';

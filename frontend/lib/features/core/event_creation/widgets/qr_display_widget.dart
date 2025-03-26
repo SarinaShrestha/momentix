@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
+import 'package:frontend/repository/event_repository/event_repository.dart';
 import 'package:frontend/repository/cloudinary/cloudinary_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:typed_data';

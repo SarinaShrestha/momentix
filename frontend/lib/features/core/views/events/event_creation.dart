@@ -237,22 +237,10 @@ Widget build(BuildContext context) {
                   child: MobileScanner(
                     onDetect: (barcode) async {
                       if (barcode.barcodes.isNotEmpty && barcode.barcodes.first.rawValue != null) {
-                        String eventId= barcode.barcodes.first.rawValue!.trim();
-                        //print("📌 Raw Scanned Value: $scannedValue");
-
-
-                        if (eventId.startsWith("Event ID:")) {
-                          eventId = eventId.replaceFirst("Event ID:", "").trim();
-                        }
-
-
-                        // String eventId = barcode.barcodes.first.rawValue!.trim();
-                        // eventId = eventId.replaceFirst("Event ID:", "").trim();
-                        print("Scanned eventId: $eventId");
-                        String userId = FirebaseAuth.instance.currentUser?.uid ?? "None";
-                        print("Current Scanned userId: $userId");
+                        String eventId = barcode.barcodes.first.rawValue!;
+                        String attendeeId = FirebaseAuth.instance.currentUser!.uid;
                         try{
-                          await EventRepository().addAttendee(eventId: eventId, attendeeId: userId);
+                          await EventRepository().addAttendee(eventId: eventId, attendeeId: attendeeId);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("You have successfully joined the event!")),
                           );
@@ -272,13 +260,11 @@ Widget build(BuildContext context) {
                 ? EventCreationFormWidget(
                   onEventCreated: (String eventId, String eventName, String eventDate, String eventType) {
                     setState(() {
-                      this.eventId = eventId;
                       this.eventName = eventName;
                       this.eventDate =  eventDate;
                       this.eventType = eventType;
-                      
+                      this.eventId = eventId;
                       qrData = "Event ID: $eventId\nEvent Name: $eventName\nEvent Date: $eventDate\nEvent Type:$eventType";
-                      print("QR Data: $qrData");
                       isQRCodeGenerated = true;
                     });
                   }

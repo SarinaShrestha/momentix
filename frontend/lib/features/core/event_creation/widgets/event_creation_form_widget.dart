@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/core/controller/event/event_controller.dart';
-import 'package:frontend/features/core/widgets/events_widgets/event_type_button_widget.dart';
-import 'package:frontend/features/core/widgets/events_widgets/qr_display_widget.dart';
-import 'package:frontend/repository/authentication_repository/event_repository/event_repository.dart';
+import 'package:frontend/features/core/event_creation/controller/event_controller.dart';
+import 'package:frontend/features/core/event_creation/widgets/event_type_button_widget.dart';
+import 'package:frontend/features/core/event_creation/widgets/qr_display_widget.dart';
+import 'package:frontend/repository/event_repository/event_repository.dart';
 import 'package:frontend/utils/colors.dart';
 import 'package:frontend/widgets/common/elevated_button_widget.dart';
 
@@ -86,7 +86,7 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
         eventType: _eventType,
       );
 
-      widget.onEventCreated(eventName, _eventDate, _eventType, eventId);
+      widget.onEventCreated(eventId, eventName, _eventDate, _eventType);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Event created successfully! Event ID: $eventId")),
@@ -128,7 +128,7 @@ class _EventCreationFormWidgetState extends State<EventCreationFormWidget> {
                 ),
 
               SizedBox(height: 30),
-              
+
               if (_step == 0)
                 TextField(
                   controller: _eventNameController,

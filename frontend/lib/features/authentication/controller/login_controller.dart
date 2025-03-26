@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/features/core/views/home/home_page.dart';
+import 'package:frontend/features/core/home/views/home_page.dart';
 import 'package:frontend/repository/authentication_repository/authentication_repository.dart';
 import 'package:frontend/repository/authentication_repository/exceptions/login_failure.dart';
 import 'package:frontend/widgets/form/error_message_widget.dart';
+import 'package:frontend/widgets/form/success_message_widget.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
@@ -100,6 +101,18 @@ class LoginController extends GetxController {
           isDismissible: true,
         );
       });
+    }
+  }
+
+  Future<void> logoutUser(BuildContext context) async {
+    try{
+      await _auth.signOut();
+
+      Get.offAll(() => const HomePage());
+
+      showMessage(context, SuccessfulMessageWidget(text: "Logout Successful"));
+    } catch (e) {
+      showMessage(context, ErrorMessageWidget(text: 'Something went wrong during logout. Please try again later.'));
     }
   }
 }

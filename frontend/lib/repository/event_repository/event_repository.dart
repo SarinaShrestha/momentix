@@ -42,9 +42,29 @@ class EventRepository extends GetxController{
     required String attendeeId
   }) async{
     try{
-      await _db.collection('Events').doc(eventId).update({
+      print("Event id in add Attendee is $eventId");
+
+      DocumentReference<Map<String, dynamic>> eventRef = await FirebaseFirestore.instance.collection('Events').doc(eventId);
+
+      final doc = await eventRef.get();
+      if (!doc.exists){
+        print("Error: Event with ID $eventId does not exist.");
+        throw Exception("Event doesn't exisyt");
+      }
+
+      List<dynamic>? currentAttendees = doc.data()?['Attendees'];
+      print("👀 Current Attendees: $currentAttendees");
+
+      await eventRef.update({
         'Attendees': FieldValue.arrayUnion([attendeeId])
       });
+
+       // Debug: Retrieve and print the updated attendees list
+      var updatedDoc = await eventRef.get();
+      print("✅ Updated Attendees: ${updatedDoc.data()?['attendees']}");
+
+      print("🎉 You have successfully joined the event!");
+
     } catch (error) {
       print("Error adding attendee: $error");
       throw error;
@@ -52,7 +72,7 @@ class EventRepository extends GetxController{
   }
 
   Future<void> updateEventDetails(EventModel event) async {
-    await _db.collection("Users").doc(event.eventId).update(event.toJson());
+    await _db.collection("Events").doc(event.eventId).update(event.toJson());
   }
 
   Future<void> storeQRCodeUrl(String eventId, String qrCodeUrl) async {
